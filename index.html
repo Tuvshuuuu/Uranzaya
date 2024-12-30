@@ -1,21 +1,397 @@
 <!DOCTYPE html>
 <html lang="en">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>You and me</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surprise for You</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ff7eb3, #590fb7);
+            overflow: hidden;
+        }
+
+        .snow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .snow span {
+            position: absolute;
+            top: -10px;
+            width: 8px;
+            height: 8px;
+            background: white;
+            opacity: 0.8;
+            border-radius: 50%;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-10px);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(110vh);
+                opacity: 0;
+            }
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-top: 50px;
+            z-index: 2;
+            animation: fadeIn 2s;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .main-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 80vh;
+            z-index: 2;
+        }
+
+        .game-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .game-card {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: white;
+            background: #ff0000;
+            width: 200px;
+            height: 200px;
+            border-radius: 15px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            transition: transform 0.3s, background-color 0.3s;
+            background-image: url('gift-box.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .game-card:hover {
+            transform: scale(1.1);
+            background-color: #ff7e00;
+        }
+
+        .game-card.locked {
+            opacity: 0.5;
+            pointer-events: none;
+            cursor: not-allowed;
+        }
+
+        .game-card.active {
+            pointer-events: auto;
+        }
+
+        .quiz-container {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            text-align: center;
+            width: 300px;
+        }
+
+        .quiz-container button {
+            background-color: #ff7e00;
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .quiz-container button:hover {
+            background-color: #ff0000;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .popup button {
+            animation: bounce 0.5s infinite alternate;
+        }
+
+        @keyframes bounce {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        .level-display {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            font-size: 1.5rem;
+            color: white;
+            z-index: 2;
+        }
+
+        .points-display {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            font-size: 1.5rem;
+            color: white;
+            z-index: 2;
+            animation: fadeIn 2s;
+        }
+
+        /* Timer for Countdown Display */
+        .timer {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 2s;
+        }
+    </style>
 </head>
 <body>
-  <h1>Will you go on a date with me?</h1>
-  <div>
-    <button id="yesButton">Yes</button>
-    <button id="noButton">No</button>
-  </div>
-  
-  <div id="thankYouMessage" class="hidden">Thank you!</div>
+    <div class="snow"></div>
 
-  <script src="script.js"></script> 
+    <!-- Header -->
+    <div class="header">
+        <h1>Surprise for You</h1>
+        <p>Асуултанд хариулан урилгаа аваарай. 10 оноо авна шүү.</p>
+    </div>
+
+    <!-- Level Display -->
+    <div class="level-display" id="level-display">Level: 1</div>
+    
+    <!-- Points Display -->
+    <div class="points-display" id="points-display">Points: 0</div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="game-container" id="games">
+            <!-- First Card (Quiz) -->
+            <div class="game-card quiz-card locked" id="quiz" onclick="startQuiz()">
+                <div>QUIZ</div>
+            </div>
+            <!-- Second Card (Locked initially) -->
+            <div class="game-card locked" id="invitation" onclick="showInvitationGift()">
+                <div>Урилга</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quiz Popup -->
+    <div class="quiz-container" id="quiz-container">
+        <h2>Quiz Question</h2>
+        <p id="question">Loading...</p>
+        <div id="options"></div>
+        <button onclick="closeQuiz()">Close</button>
+    </div>
+
+    <!-- Invitation Gift Card -->
+    <div class="invitation-gift" id="invitation-gift">
+        <h3>Таны Урилга</h3>
+        <p>Баяр хүргэе! Та урилгаа авсан байна!</p>
+        
+        <!-- QR Code Section -->
+        <div class="qr-code">
+            <!-- Replace 'your-qr-code.png' with the actual QR code image you want to display -->
+            <img src="your-qr-code.png" alt="QR Code">
+        </div>
+
+        <button onclick="closeGiftCard()">Close</button>
+    </div>
+
+    <!-- Timer Display -->
+    <div class="timer" id="timer-display">00:00</div>
+
+    <script>
+        const questions = [
+            { question: "Бидний үерхсэн өдөр хэзээ вэ?", options: ["October 4th", "December 25th", "January 1st"], answer: "October 4th" },
+            { question: "Таны төрсөн өдөр хэзээ вэ?", options: ["January 5th", "March 15th", "June 23rd"], answer: "January 5th" },
+            { question: "Та хаана амьдардаг вэ?", options: ["Ulaanbaatar", "Tokyo", "New York"], answer: "Ulaanbaatar" },
+            { question: "Би хэдэнд төрсөн бэ?", options: ["September 18th", "September 16th", "October 25th"], answer: "September 18th" },
+            { question: "Миний хамгийн дуртай амттай хоол юу вэ?", options: ["Tsuivan", "Sushi", "Burger"], answer: "Tsuivan" },
+            { question: "Таны хамгийн дуртай хөгжим юу вэ?", options: ["Rock", "Pop", "Jazz"], answer: "Pop" },
+            { question: "Таны гэр бүл хэдүүлээ вэ?", options: ["4", "3", "5"], answer: "5" },
+            { question: "Та ямар амьтантай байж байсан бэ?", options: ["Dog", "Cat", "Rabbit"], answer: "Dog" },
+            { question: "Жавхаанаагийн бүтэн нэр?", options: ["Батсүлд", "Баяржавхлан", "Жавхланбаяр"], answer: "Баяржавхлан" },
+            { question: "Найз залууг тань хэн гэдэн вэ?", options: ["Түвшнөө", "Сайханаа", "Tuvshinsaikhan"], answer: "Tuvshinsaikhan" }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        function startQuiz() {
+            const quizContainer = document.getElementById('quiz-container');
+            quizContainer.style.display = 'block';
+            displayQuestion(currentQuestionIndex);
+        }
+
+        function displayQuestion(index) {
+            const questionElement = document.getElementById('question');
+            const optionsElement = document.getElementById('options');
+            questionElement.innerText = questions[index].question;
+
+            optionsElement.innerHTML = ''; // Clear previous options
+            questions[index].options.forEach(option => {
+                const button = document.createElement('button');
+                button.innerText = option;
+                button.onclick = () => checkAnswer(option, index);
+                optionsElement.appendChild(button);
+            });
+        }
+
+        function checkAnswer(selectedAnswer, questionIndex) {
+            if (selectedAnswer === questions[questionIndex].answer) {
+                score++;
+                document.getElementById('points-display').innerText = `Points: ${score}`;
+            }
+
+            questionIndex++;
+            if (questionIndex < questions.length) {
+                displayQuestion(questionIndex);
+            } else {
+                document.getElementById('quiz-container').style.display = 'none';
+                checkUnlockCondition();
+            }
+        }
+
+        function closeQuiz() {
+            score = 0;
+            document.getElementById('points-display').innerText = `Points: ${score}`;
+            document.getElementById('quiz-container').style.display = 'none';
+        }
+
+        function checkUnlockCondition() {
+            if (score >= 10) {
+                document.getElementById('invitation').classList.remove('locked');
+                document.getElementById('invitation').classList.add('active');
+                updateLevelDisplay();
+            }
+        }
+
+        function updateLevelDisplay() {
+            const levelDisplay = document.getElementById('level-display');
+            levelDisplay.innerText = 'Level: 2';
+            document.getElementById('invitation').style.transition = 'transform 1s';
+            document.getElementById('invitation').style.transform = 'scale(1.1)';
+        }
+
+        function showInvitationGift() {
+            document.getElementById('invitation-gift').style.display = 'block';
+        }
+
+        function closeGiftCard() {
+            document.getElementById('invitation-gift').style.display = 'none';
+        }
+
+        // Timer to unlock quiz button
+        function activateQuizButton() {
+            const targetDate = new Date('2025-01-01T00:00:00');
+            const currentDate = new Date();
+
+            if (currentDate >= targetDate) {
+                document.getElementById('quiz').classList.remove('locked');
+                document.getElementById('quiz').classList.add('active');
+            } else {
+                const countdown = setInterval(function() {
+                    const now = new Date();
+                    const timeLeft = targetDate - now;
+
+                    // Calculate hours, minutes, and seconds
+                    const hours = Math.floor((timeLeft / (1000 * 60 * 60)) % 24);
+                    const minutes = Math.floor((timeLeft / (1000 * 60)) % 60);
+                    const seconds = Math.floor((timeLeft / 1000) % 60);
+
+                    // Format time
+                    const formattedTime = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+
+                    document.getElementById('timer-display').innerText = formattedTime;
+
+                    if (now >= targetDate) {
+                        document.getElementById('quiz').classList.remove('locked');
+                        document.getElementById('quiz').classList.add('active');
+                        clearInterval(countdown);
+                    }
+                }, 1000);
+            }
+        }
+
+        function pad(num) {
+            return num < 10 ? '0' + num : num;
+        }
+
+        // Activate the timer as soon as the page loads
+        window.onload = activateQuizButton;
+
+    </script>
 </body>
 </html>
