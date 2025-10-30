@@ -3,97 +3,95 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🎁 Онцгой болзоо</title>
+  <title>Онцгой Болзоо</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="points-display" id="points-display">Оноо: 0</div>
-
-  <!-- Step 1 -->
-  <div class="container active" id="step1">
-    <h2>Та Өрөнзаяа мөн үү?</h2>
-    <p>Таны төрсөн өдөр?</p>
+  <div class="container" id="step1">
+    <h1>🖤 Онцгой Болзоо</h1>
+    <p>Та өөрийгөө <b>Уранзаяа</b> мөн болохоо баталгаажуулна уу.</p>
+    <h3>🎂 Таны төрсөн өдөр хэд вэ?</h3>
     <div class="options">
-      <button onclick="checkAnswer('2001.05.10', '2002.01.05', 'step1', 'step2')">2001.05.10</button>
-      <button onclick="checkAnswer('2002.01.05', '2002.01.05', 'step1', 'step2')">2002.01.05</button>
-      <button onclick="checkAnswer('2003.03.05', '2002.01.05', 'step1', 'step2')">2003.03.05</button>
+      <button onclick="checkAnswer(1, '2002.01.05')">2002.01.05</button>
+      <button onclick="checkAnswer(1, '2002.05.02')">2002.05.02</button>
+      <button onclick="checkAnswer(1, '2001.12.25')">2001.12.25</button>
     </div>
+    <p class="message" id="msg1"></p>
   </div>
 
-  <!-- Step 2 -->
-  <div class="container" id="step2">
-    <h2>Миний төрсөн өдөр хэд вэ?</h2>
+  <div class="container hidden" id="step2">
+    <h3>💫 Миний төрсөн өдөр хэд вэ?</h3>
     <div class="options">
-      <button onclick="checkAnswer('2002.09.16', '2002.09.18', 'step2', 'step3')">2002.09.16</button>
-      <button onclick="checkAnswer('2002.09.18', '2002.09.18', 'step2', 'step3')">2002.09.18</button>
-      <button onclick="checkAnswer('2002.10.18', '2002.09.18', 'step2', 'step3')">2002.10.18</button>
+      <button onclick="checkAnswer(2, '2002.09.18')">2002.09.18</button>
+      <button onclick="checkAnswer(2, '2002.10.25')">2002.10.25</button>
+      <button onclick="checkAnswer(2, '2001.09.18')">2001.09.18</button>
     </div>
+    <p class="message" id="msg2"></p>
   </div>
 
-  <!-- Step 3 -->
-  <div class="container" id="step3">
-    <h2>Та надтай онцгой болзоонд явах уу? 💞</h2>
+  <div class="container hidden" id="step3">
+    <h3>💞 Надтай онцгой болзоонд явах уу?</h3>
     <div class="options">
-      <button onclick="finalQuestion(true)">Тийм</button>
-      <button onclick="finalQuestion(false)">Үгүй</button>
+      <button onclick="checkAnswer(3, 'yes')">Тийм</button>
+      <button onclick="checkAnswer(3, 'no')">Үгүй</button>
     </div>
+    <p class="message" id="msg3"></p>
   </div>
 
-  <!-- Step 4 – Болзоо зохиох хэсэг -->
-  <div class="container" id="step4">
-    <h2>✨ Оноогоо ашиглаад өөрийн онцгой болзоог зохиогоорой!</h2>
-    <button class="continue-btn" onclick="startDatePlan()">Үргэлжлүүлэх</button>
+  <div class="container hidden" id="explain">
+    <h2>✨ Болзоогоо оноогоороо зохиогоорой</h2>
+    <p>Та нийт <span id="score-display"></span> оноо авсан байна.  
+      Одоо тэдгээр оноогоо ашиглан болзоогоо төлөвлөж болно.</p>
+    <button onclick="startDatePlan()">➡ Үргэлжлүүлэх</button>
   </div>
 
-  <!-- Step 5 – Болзоо төлөвлөх form -->
-  <div class="container" id="date-planner">
-    <h2>💌 Болзооны төлөвлөгөө</h2>
+  <div class="container hidden" id="planner">
+    <h2>💌 Болзоо Төлөвлөх</h2>
 
-    <div class="form-group">
-      <label>📅 Огноо:</label>
-      <input type="date" id="date">
+    <div class="plan-step">
+      <label>1️⃣ Огноо:</label>
+      <input type="date" id="dateInput">
     </div>
 
-    <div class="form-group">
-      <label>📍 Байршил:</label>
-      <select id="place">
-        <option value="1">Гэртээ</option>
-        <option value="2">Ресторан</option>
-        <option value="3">Зочид буудал / Ресорт</option>
+    <div class="plan-step">
+      <label>2️⃣ Байрлал (оноо шаардлагатай):</label>
+      <select id="placeSelect">
+        <option value="1">Гэртээ (1 оноо)</option>
+        <option value="2">Ресторан (2 оноо)</option>
+        <option value="3">Зочид буудал / Ресорт (3 оноо)</option>
       </select>
     </div>
 
-    <div class="form-group">
-      <label>🍷 Уух зүйл:</label>
-      <select id="drink">
+    <div class="plan-step">
+      <label>3️⃣ Уух зүйл:</label>
+      <select id="drinkSelect">
         <option value="1">Вино</option>
         <option value="2">Пиво</option>
-        <option value="3">Хатуу ундаа</option>
+        <option value="3">Хатуу</option>
       </select>
     </div>
 
-    <div class="form-group">
-      <label>🍽️ Хоол:</label>
-      <select id="food">
-        <option value="1">Стейк</option>
-        <option value="2">Суши</option>
-        <option value="3">Монгол хоол</option>
+    <div class="plan-step">
+      <label>4️⃣ Хоол:</label>
+      <select id="foodSelect">
+        <option value="1">Суши</option>
+        <option value="2">Паста</option>
+        <option value="3">Стейк</option>
       </select>
     </div>
 
-    <div class="form-group">
-      <label>🚗 Унаа:</label>
-      <select id="car">
-        <option value="1">Prius</option>
-        <option value="2">Land Cruiser</option>
-        <option value="3">BMW</option>
+    <div class="plan-step">
+      <label>5️⃣ Унаа:</label>
+      <select id="carSelect">
+        <option value="1">Такси</option>
+        <option value="2">Тэрний машин</option>
+        <option value="3">Люкс авто</option>
       </select>
     </div>
 
-    <div class="options">
-      <button onclick="confirmPlan()">✅ Баталгаажуулах</button>
-      <button onclick="resetPlan()">🔁 Дахин болзоо зохиох</button>
-    </div>
+    <button onclick="finalizePlan()">✅ Баталгаажуулах</button>
+    <button onclick="resetAll()">🔁 Дахин зохиох</button>
+    <p id="saveMsg"></p>
   </div>
 
   <script src="script.js"></script>
