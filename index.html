@@ -3,90 +3,156 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Онцгой Болзоо</title>
-  <link rel="stylesheet" href="style.css">
+  <title>🖤 Онцгой Болзоо</title>
+  <style>
+    /* Dark & Premium Style */
+    body {
+      background: radial-gradient(circle at top, #0f0f0f, #000);
+      color: #fff;
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      margin: 0;
+    }
+
+    .container {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 40px;
+      border-radius: 20px;
+      width: 380px;
+      text-align: center;
+      box-shadow: 0 0 25px rgba(255,255,255,0.1);
+      animation: fadeIn 0.7s ease;
+    }
+
+    h1, h2, h3 {
+      margin-bottom: 20px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      color: #d4af37;
+    }
+
+    select, input, button {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      margin-bottom: 20px;
+      font-size: 1em;
+    }
+
+    select, input {
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+    }
+
+    option { background: #111; }
+
+    button {
+      background: linear-gradient(90deg, #d4af37, #b8860b);
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover { background: linear-gradient(90deg, #f5d76e, #d4af37); }
+
+    .hidden { display: none; }
+
+    .options button {
+      margin: 5px 0;
+      width: 100%;
+      font-size: 1em;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
 </head>
 <body>
+
+  <!-- Алхам 1: Баталгаажуулалт -->
   <div class="container" id="step1">
     <h1>🖤 Онцгой Болзоо</h1>
     <p>Та өөрийгөө <b>Уранзаяа</b> мөн болохоо баталгаажуулна уу.</p>
     <h3>🎂 Таны төрсөн өдөр хэзээ вэ?</h3>
     <div class="options">
-      <button onclick="checkAnswer(1, '2002.01.05')">2002.01.05</button>
-      <button onclick="checkAnswer(1, '2002.05.02')">2002.05.02</button>
-      <button onclick="checkAnswer(1, '2001.12.25')">2001.12.25</button>
+      <button onclick="nextStep(1)">2002.01.05</button>
+      <button onclick="nextStep(1)">2002.05.02</button>
+      <button onclick="nextStep(1)">2001.12.25</button>
     </div>
-    <p class="message" id="msg1"></p>
   </div>
 
+  <!-- Алхам 2: Миний төрсөн өдөр -->
   <div class="container hidden" id="step2">
     <h3>💫 Миний төрсөн өдөр хэзээ вэ?</h3>
     <div class="options">
-      <button onclick="checkAnswer(2, '2002.09.18')">2002.09.18</button>
-      <button onclick="checkAnswer(2, '2002.10.25')">2002.10.25</button>
-      <button onclick="checkAnswer(2, '2001.09.18')">2001.09.18</button>
+      <button onclick="nextStep(2)">2002.09.18</button>
+      <button onclick="nextStep(2)">2002.10.25</button>
+      <button onclick="nextStep(2)">2001.09.18</button>
     </div>
-    <p class="message" id="msg2"></p>
   </div>
 
+  <!-- Алхам 3: Болзоо -->
   <div class="container hidden" id="step3">
     <h3>💞 Надтай онцгой болзоонд явах уу?</h3>
     <div class="options">
-      <button onclick="checkAnswer(3, 'yes')">Тийм</button>
-      <button onclick="checkAnswer(3, 'no')">Үгүй</button>
+      <button onclick="nextStep(3)">Тийм</button>
+      <button onclick="nextStep(3)">Үгүй</button>
     </div>
-    <p class="message" id="msg3"></p>
   </div>
 
-  <div class="container hidden" id="explain">
-    <h2>✨ Болзоогоо оноогоороо зохиогоорой</h2>
-    <p>Та нийт <span id="score-display"></span> оноо авсан байна.  
-      Одоо тэдгээр оноогоо ашиглан болзоогоо төлөвлөж болно.</p>
-    <button onclick="startDatePlan()">➡ Үргэлжлүүлэх</button>
-  </div>
-
- <!-- index.html -->
-<!-- ... өмнөх CSS хэвээр байж болно ... -->
-
-<body>
-  <div class="container" id="step1">
+  <!-- Алхам 4: Огноо -->
+  <div class="container hidden" id="step4">
     <h2>💌 Болзоо Төлөвлөх — Алхам 1</h2>
     <label>1️⃣ Боломжит огноо:</label>
     <input type="date" id="dateInput">
-    <button onclick="nextStep(1)">👉 Үргэлжлүүлэх</button>
+    <button onclick="nextStep(4)">👉 Үргэлжлүүлэх</button>
   </div>
 
-  <div class="container hidden" id="step2">
+  <!-- Алхам 5: Байрлал -->
+  <div class="container hidden" id="step5">
     <h2>🏠 Байрлал Сонгох</h2>
     <select id="placeSelect">
       <option value="1">🏡 Гэртээ — Тайван, дотно орчин</option>
       <option value="2">🍽 Ресторан — Романтик оройн хоол</option>
       <option value="3">🏖 Зочид буудал / Ресорт — Онцгой амралт</option>
     </select>
-    <button onclick="nextStep(2)">👉 Үргэлжлүүлэх</button>
+    <button onclick="nextStep(5)">👉 Үргэлжлүүлэх</button>
   </div>
 
-  <div class="container hidden" id="step3">
+  <!-- Алхам 6: Уух зүйл -->
+  <div class="container hidden" id="step6">
     <h2>🍷 Уух зүйл</h2>
     <select id="drinkSelect">
       <option value="1">🍷 Вино</option>
       <option value="2">🍺 Пиво</option>
       <option value="3">🥃 Хатуу</option>
     </select>
-    <button onclick="nextStep(3)">👉 Үргэлжлүүлэх</button>
+    <button onclick="nextStep(6)">👉 Үргэлжлүүлэх</button>
   </div>
 
-  <div class="container hidden" id="step4">
+  <!-- Алхам 7: Хоол -->
+  <div class="container hidden" id="step7">
     <h2>🍽 Хоол Сонгох</h2>
     <select id="foodSelect">
       <option value="1">🍣 Суши</option>
       <option value="2">🍝 Паста</option>
       <option value="3">🥩 Стейк</option>
     </select>
-    <button onclick="nextStep(4)">👉 Үргэлжлүүлэх</button>
+    <button onclick="nextStep(7)">👉 Үргэлжлүүлэх</button>
   </div>
 
-  <div class="container hidden" id="step5">
+  <!-- Алхам 8: Унаа -->
+  <div class="container hidden" id="step8">
     <h2>🚗 Унаа Сонгох</h2>
     <select id="carSelect">
       <option value="1">🚕 Такси</option>
@@ -96,6 +162,7 @@
     <button onclick="finalizePlan()">✅ Баталгаажуулах</button>
   </div>
 
+  <!-- Summary -->
   <div class="container hidden" id="summary">
     <h2>✨ Таны Болзоо</h2>
     <p id="summaryText"></p>
@@ -115,7 +182,7 @@
       const food = document.getElementById('foodSelect').selectedOptions[0].text;
       const car = document.getElementById('carSelect').selectedOptions[0].text;
 
-      document.getElementById('step5').classList.add('hidden');
+      document.getElementById('step8').classList.add('hidden');
       document.getElementById('summary').classList.remove('hidden');
       document.getElementById('summaryText').innerHTML = `
         📅 Огноо: ${date}<br>
@@ -131,9 +198,6 @@
       document.getElementById('step1').classList.remove('hidden');
     }
   </script>
-</body>
 
-  <script src="script.js"></script>
 </body>
 </html>
-
