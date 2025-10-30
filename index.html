@@ -10,7 +10,7 @@
   <div class="container" id="step1">
     <h1>🖤 Онцгой Болзоо</h1>
     <p>Та өөрийгөө <b>Уранзаяа</b> мөн болохоо баталгаажуулна уу.</p>
-    <h3>🎂 Таны төрсөн өдөр хэд вэ?</h3>
+    <h3>🎂 Таны төрсөн өдөр хэзээ вэ?</h3>
     <div class="options">
       <button onclick="checkAnswer(1, '2002.01.05')">2002.01.05</button>
       <button onclick="checkAnswer(1, '2002.05.02')">2002.05.02</button>
@@ -20,7 +20,7 @@
   </div>
 
   <div class="container hidden" id="step2">
-    <h3>💫 Миний төрсөн өдөр хэд вэ?</h3>
+    <h3>💫 Миний төрсөн өдөр хэзээ вэ?</h3>
     <div class="options">
       <button onclick="checkAnswer(2, '2002.09.18')">2002.09.18</button>
       <button onclick="checkAnswer(2, '2002.10.25')">2002.10.25</button>
@@ -45,55 +45,95 @@
     <button onclick="startDatePlan()">➡ Үргэлжлүүлэх</button>
   </div>
 
-  <div class="container hidden" id="planner">
-    <h2>💌 Болзоо Төлөвлөх</h2>
+ <!-- index.html -->
+<!-- ... өмнөх CSS хэвээр байж болно ... -->
 
-    <div class="plan-step">
-      <label>1️⃣ Огноо:</label>
-      <input type="date" id="dateInput">
-    </div>
-
-    <div class="plan-step">
-      <label>2️⃣ Байрлал (оноо шаардлагатай):</label>
-      <select id="placeSelect">
-        <option value="1">Гэртээ (1 оноо)</option>
-        <option value="2">Ресторан (2 оноо)</option>
-        <option value="3">Зочид буудал / Ресорт (3 оноо)</option>
-      </select>
-    </div>
-
-    <div class="plan-step">
-      <label>3️⃣ Уух зүйл:</label>
-      <select id="drinkSelect">
-        <option value="1">Вино</option>
-        <option value="2">Пиво</option>
-        <option value="3">Хатуу</option>
-      </select>
-    </div>
-
-    <div class="plan-step">
-      <label>4️⃣ Хоол:</label>
-      <select id="foodSelect">
-        <option value="1">Суши</option>
-        <option value="2">Паста</option>
-        <option value="3">Стейк</option>
-      </select>
-    </div>
-
-    <div class="plan-step">
-      <label>5️⃣ Унаа:</label>
-      <select id="carSelect">
-        <option value="1">Такси</option>
-        <option value="2">Тэрний машин</option>
-        <option value="3">Люкс авто</option>
-      </select>
-    </div>
-
-    <button onclick="finalizePlan()">✅ Баталгаажуулах</button>
-    <button onclick="resetAll()">🔁 Дахин зохиох</button>
-    <p id="saveMsg"></p>
+<body>
+  <div class="container" id="step1">
+    <h2>💌 Болзоо Төлөвлөх — Алхам 1</h2>
+    <label>1️⃣ Боломжит огноо:</label>
+    <input type="date" id="dateInput">
+    <button onclick="nextStep(1)">👉 Үргэлжлүүлэх</button>
   </div>
+
+  <div class="container hidden" id="step2">
+    <h2>🏠 Байрлал Сонгох</h2>
+    <select id="placeSelect">
+      <option value="1">🏡 Гэртээ — Тайван, дотно орчин</option>
+      <option value="2">🍽 Ресторан — Романтик оройн хоол</option>
+      <option value="3">🏖 Зочид буудал / Ресорт — Онцгой амралт</option>
+    </select>
+    <button onclick="nextStep(2)">👉 Үргэлжлүүлэх</button>
+  </div>
+
+  <div class="container hidden" id="step3">
+    <h2>🍷 Уух зүйл</h2>
+    <select id="drinkSelect">
+      <option value="1">🍷 Вино</option>
+      <option value="2">🍺 Пиво</option>
+      <option value="3">🥃 Хатуу</option>
+    </select>
+    <button onclick="nextStep(3)">👉 Үргэлжлүүлэх</button>
+  </div>
+
+  <div class="container hidden" id="step4">
+    <h2>🍽 Хоол Сонгох</h2>
+    <select id="foodSelect">
+      <option value="1">🍣 Суши</option>
+      <option value="2">🍝 Паста</option>
+      <option value="3">🥩 Стейк</option>
+    </select>
+    <button onclick="nextStep(4)">👉 Үргэлжлүүлэх</button>
+  </div>
+
+  <div class="container hidden" id="step5">
+    <h2>🚗 Унаа Сонгох</h2>
+    <select id="carSelect">
+      <option value="1">🚕 Такси</option>
+      <option value="2">🚘 Түүний машин</option>
+      <option value="3">🚙 Люкс авто</option>
+    </select>
+    <button onclick="finalizePlan()">✅ Баталгаажуулах</button>
+  </div>
+
+  <div class="container hidden" id="summary">
+    <h2>✨ Таны Болзоо</h2>
+    <p id="summaryText"></p>
+    <button onclick="resetAll()">🔁 Дахин зохиох</button>
+  </div>
+
+  <script>
+    function nextStep(step) {
+      document.getElementById(`step${step}`).classList.add('hidden');
+      document.getElementById(`step${step + 1}`).classList.remove('hidden');
+    }
+
+    function finalizePlan() {
+      const date = document.getElementById('dateInput').value;
+      const place = document.getElementById('placeSelect').selectedOptions[0].text;
+      const drink = document.getElementById('drinkSelect').selectedOptions[0].text;
+      const food = document.getElementById('foodSelect').selectedOptions[0].text;
+      const car = document.getElementById('carSelect').selectedOptions[0].text;
+
+      document.getElementById('step5').classList.add('hidden');
+      document.getElementById('summary').classList.remove('hidden');
+      document.getElementById('summaryText').innerHTML = `
+        📅 Огноо: ${date}<br>
+        🏠 Байрлал: ${place}<br>
+        🍷 Уух зүйл: ${drink}<br>
+        🍽 Хоол: ${food}<br>
+        🚗 Унаа: ${car}
+      `;
+    }
+
+    function resetAll() {
+      document.querySelectorAll('.container').forEach(c => c.classList.add('hidden'));
+      document.getElementById('step1').classList.remove('hidden');
+    }
+  </script>
+</body>
 
   <script src="script.js"></script>
 </body>
 </html>
+
