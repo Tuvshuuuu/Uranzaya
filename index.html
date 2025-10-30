@@ -1,88 +1,100 @@
 <!DOCTYPE html>
 <html lang="mn">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Surprise Date — Halloween</title>
-  <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎁 Онцгой болзоо</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header class="header">
-    <h1>Surprise for You</h1>
-    <p>Асуултад зөв хариулж оноо цуглуул! Цугласан оноогоор болзоог тохируулна.</p>
-  </header>
+  <div class="points-display" id="points-display">Оноо: 0</div>
 
-  <main class="main">
-    <section class="auth-card" id="auth-card">
-      <h2>Таних үйл явц</h2>
-      <label>Нэр (урьдчилсан): <input id="name-input" placeholder="Жишээ: Uranzaya"></label>
-      <button id="start-auth">Баталгаажуулах</button>
-      <p class="hint">Та оруулсан нэрээрээ баталгаажуулна. (Uranzaya гэвэл үргэлжилнэ)</p>
-    </section>
-
-    <section class="quiz-card locked" id="quiz-card" aria-hidden="true">
-      <h2>Quiz</h2>
-      <div id="quiz-area">
-        <p id="q-text"></p>
-        <div id="q-options"></div>
-      </div>
-      <button id="close-quiz">Хаах</button>
-    </section>
-
-    <section class="invitation-card locked" id="invitation-card" aria-hidden="true">
-      <h2>Урилга контейнер</h2>
-      <p id="invitation-status">Container: түгжээтэй</p>
-      <div class="container-display" id="container-display">[container]</div>
-      <button id="color-container-btn">Өнгөлөх (оноогоор)</button>
-      <p id="color-feedback" class="feedback"></p>
-    </section>
-
-    <section class="mini-game locked" id="mini-game" aria-hidden="true">
-      <h2>Ghost Clicker — Оноо цуглуулаач</h2>
-      <p>Гох дарах бүрт +1 оноо</p>
-      <div id="ghost-area"></div>
-      <p>Одоогийн цугласан оноо: <span id="game-points">0</span></p>
-      <button id="finish-game">Тоглоом дуусгах</button>
-    </section>
-
-    <section class="date-builder locked" id="date-builder" aria-hidden="true">
-      <h2>Болзоо зохион байгуулах (5 хэсэг)</h2>
-      <div id="step-area"></div>
-      <div class="nav-buttons">
-        <button id="prev-step">Өмнөх</button>
-        <button id="next-step">Дараах</button>
-      </div>
-      <p id="save-feedback" class="feedback"></p>
-    </section>
-
-    <section class="final locked" id="final" aria-hidden="true">
-      <h2>Баталгаажуулалт</h2>
-      <p>Оруулсан мэдээлэл:</p>
-      <pre id="summary"></pre>
-      <button id="confirm-save">Хадгалах</button>
-      <p class="feedback" id="final-feedback"></p>
-    </section>
-
-    <div class="admin-panel">
-      <button id="admin-btn">Admin</button>
-    </div>
-  </main>
-
-  <!-- Admin modal -->
-  <div id="admin-modal" class="modal">
-    <div class="modal-inner">
-      <h3>Admin нэвтрэх</h3>
-      <label>Нууц үг: <input id="admin-pass" type="password"></label>
-      <div>
-        <button id="admin-login">Нэвтрэх</button>
-        <button id="admin-close">Хаах</button>
-      </div>
-      <div id="admin-content" class="admin-content"></div>
+  <!-- Step 1 -->
+  <div class="container active" id="step1">
+    <h2>Та Өрөнзаяа мөн үү?</h2>
+    <p>Таны төрсөн өдөр?</p>
+    <div class="options">
+      <button onclick="checkAnswer('2001.05.10', '2002.01.05', 'step1', 'step2')">2001.05.10</button>
+      <button onclick="checkAnswer('2002.01.05', '2002.01.05', 'step1', 'step2')">2002.01.05</button>
+      <button onclick="checkAnswer('2003.03.05', '2002.01.05', 'step1', 'step2')">2003.03.05</button>
     </div>
   </div>
 
-  <audio id="bg-sound" src="sounds/spooky.mp3" loop></audio>
+  <!-- Step 2 -->
+  <div class="container" id="step2">
+    <h2>Миний төрсөн өдөр хэд вэ?</h2>
+    <div class="options">
+      <button onclick="checkAnswer('2002.09.16', '2002.09.18', 'step2', 'step3')">2002.09.16</button>
+      <button onclick="checkAnswer('2002.09.18', '2002.09.18', 'step2', 'step3')">2002.09.18</button>
+      <button onclick="checkAnswer('2002.10.18', '2002.09.18', 'step2', 'step3')">2002.10.18</button>
+    </div>
+  </div>
+
+  <!-- Step 3 -->
+  <div class="container" id="step3">
+    <h2>Та надтай онцгой болзоонд явах уу? 💞</h2>
+    <div class="options">
+      <button onclick="finalQuestion(true)">Тийм</button>
+      <button onclick="finalQuestion(false)">Үгүй</button>
+    </div>
+  </div>
+
+  <!-- Step 4 – Болзоо зохиох хэсэг -->
+  <div class="container" id="step4">
+    <h2>✨ Оноогоо ашиглаад өөрийн онцгой болзоог зохиогоорой!</h2>
+    <button class="continue-btn" onclick="startDatePlan()">Үргэлжлүүлэх</button>
+  </div>
+
+  <!-- Step 5 – Болзоо төлөвлөх form -->
+  <div class="container" id="date-planner">
+    <h2>💌 Болзооны төлөвлөгөө</h2>
+
+    <div class="form-group">
+      <label>📅 Огноо:</label>
+      <input type="date" id="date">
+    </div>
+
+    <div class="form-group">
+      <label>📍 Байршил:</label>
+      <select id="place">
+        <option value="1">Гэртээ</option>
+        <option value="2">Ресторан</option>
+        <option value="3">Зочид буудал / Ресорт</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>🍷 Уух зүйл:</label>
+      <select id="drink">
+        <option value="1">Вино</option>
+        <option value="2">Пиво</option>
+        <option value="3">Хатуу ундаа</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>🍽️ Хоол:</label>
+      <select id="food">
+        <option value="1">Стейк</option>
+        <option value="2">Суши</option>
+        <option value="3">Монгол хоол</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>🚗 Унаа:</label>
+      <select id="car">
+        <option value="1">Prius</option>
+        <option value="2">Land Cruiser</option>
+        <option value="3">BMW</option>
+      </select>
+    </div>
+
+    <div class="options">
+      <button onclick="confirmPlan()">✅ Баталгаажуулах</button>
+      <button onclick="resetPlan()">🔁 Дахин болзоо зохиох</button>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>
