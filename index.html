@@ -1,256 +1,89 @@
 <!DOCTYPE html>
 <html lang="mn">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🎃 Halloween Surprise 🎃</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Surprise Date — Halloween</title>
   <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Creepster', cursive;
-      background: radial-gradient(circle at top, #1a0000, #000);
-      overflow: hidden;
-      color: #ff7518;
-    }
-
-    .header {
-      text-align: center;
-      margin-top: 40px;
-      animation: fadeIn 2s ease-in-out;
-    }
-
-    .header h1 {
-      font-size: 3rem;
-      text-shadow: 0 0 20px #ff6600;
-    }
-
-    .header p {
-      font-size: 1.3rem;
-      color: #ffd480;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Halloween bats animation */
-    .bats span {
-      position: fixed;
-      width: 40px;
-      height: 20px;
-      background: url('bat.png') no-repeat center / contain;
-      top: -50px;
-      animation: fly linear infinite;
-      opacity: 0.8;
-    }
-
-    @keyframes fly {
-      0% { transform: translateX(0) translateY(0) rotate(0deg); opacity: 1; }
-      100% { transform: translateX(100vw) translateY(100vh) rotate(360deg); opacity: 0; }
-    }
-
-    .main-content {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 70vh;
-      z-index: 2;
-    }
-
-    .game-container {
-      display: flex;
-      gap: 40px;
-    }
-
-    .game-card {
-      width: 200px;
-      height: 200px;
-      border-radius: 20px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: #fff;
-      font-size: 2rem;
-      text-shadow: 2px 2px 10px black;
-      background: url('pumpkin-bg.jpg') center/cover no-repeat;
-      box-shadow: 0 0 20px #ff6600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .game-card:hover {
-      transform: scale(1.1) rotate(-3deg);
-      box-shadow: 0 0 40px #ff7518;
-    }
-
-    .locked {
-      filter: grayscale(1);
-      opacity: 0.6;
-      pointer-events: none;
-    }
-
-    .quiz-container,
-    .popup {
-      display: none;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: #1a0000;
-      color: #ffcc99;
-      border: 3px solid #ff7518;
-      border-radius: 15px;
-      padding: 20px;
-      text-align: center;
-      width: 300px;
-      box-shadow: 0 0 30px #ff6600;
-      animation: fadeIn 1s;
-    }
-
-    .quiz-container button,
-    .popup button {
-      background: #ff7518;
-      border: none;
-      color: black;
-      font-family: 'Creepster', cursive;
-      font-size: 1.2rem;
-      padding: 8px 15px;
-      border-radius: 10px;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-
-    .quiz-container button:hover,
-    .popup button:hover {
-      background: #ff0000;
-      color: white;
-    }
-
-    .qr-code img {
-      width: 120px;
-      margin-top: 15px;
-      border: 2px solid #ff6600;
-      border-radius: 10px;
-      box-shadow: 0 0 15px #ff7518;
-    }
-
-    .timer {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: rgba(255, 117, 24, 0.2);
-      color: #ff7518;
-      border: 1px solid #ff6600;
-      padding: 10px 20px;
-      border-radius: 10px;
-      font-size: 1.3rem;
-      box-shadow: 0 0 10px #ff6600;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="bats">
-    <span style="left:10%; animation-duration: 10s;"></span>
-    <span style="left:30%; animation-duration: 14s;"></span>
-    <span style="left:60%; animation-duration: 12s;"></span>
-    <span style="left:80%; animation-duration: 18s;"></span>
-  </div>
+  <header class="header">
+    <h1>Surprise for You</h1>
+    <p>Асуултад зөв хариулж оноо цуглуул! Цугласан оноогоор болзоог тохируулна.</p>
+  </header>
 
-  <div class="header">
-    <h1>🎃 Halloween Surprise 🎃</h1>
-    <p>Аймшигт асуултад хариулаад нууц урилгаа аваарай!</p>
-  </div>
+  <main class="main">
+    <section class="auth-card" id="auth-card">
+      <h2>Таних үйл явц</h2>
+      <label>Нэр (урьдчилсан): <input id="name-input" placeholder="Жишээ: Uranzaya"></label>
+      <button id="start-auth">Баталгаажуулах</button>
+      <p class="hint">Та оруулсан нэрээрээ баталгаажуулна. (Uranzaya гэвэл үргэлжилнэ)</p>
+    </section>
 
-  <div class="main-content">
-    <div class="game-container">
-      <div class="game-card locked" id="quiz" onclick="startQuiz()">QUIZ</div>
-      <div class="game-card locked" id="invitation">Урилга</div>
+    <section class="quiz-card locked" id="quiz-card" aria-hidden="true">
+      <h2>Quiz</h2>
+      <div id="quiz-area">
+        <p id="q-text"></p>
+        <div id="q-options"></div>
+      </div>
+      <button id="close-quiz">Хаах</button>
+    </section>
+
+    <section class="invitation-card locked" id="invitation-card" aria-hidden="true">
+      <h2>Урилга контейнер</h2>
+      <p id="invitation-status">Container: түгжээтэй</p>
+      <div class="container-display" id="container-display">[container]</div>
+      <button id="color-container-btn">Өнгөлөх (оноогоор)</button>
+      <p id="color-feedback" class="feedback"></p>
+    </section>
+
+    <section class="mini-game locked" id="mini-game" aria-hidden="true">
+      <h2>Ghost Clicker — Оноо цуглуулаач</h2>
+      <p>Гох дарах бүрт +1 оноо</p>
+      <div id="ghost-area"></div>
+      <p>Одоогийн цугласан оноо: <span id="game-points">0</span></p>
+      <button id="finish-game">Тоглоом дуусгах</button>
+    </section>
+
+    <section class="date-builder locked" id="date-builder" aria-hidden="true">
+      <h2>Болзоо зохион байгуулах (5 хэсэг)</h2>
+      <div id="step-area"></div>
+      <div class="nav-buttons">
+        <button id="prev-step">Өмнөх</button>
+        <button id="next-step">Дараах</button>
+      </div>
+      <p id="save-feedback" class="feedback"></p>
+    </section>
+
+    <section class="final locked" id="final" aria-hidden="true">
+      <h2>Баталгаажуулалт</h2>
+      <p>Оруулсан мэдээлэл:</p>
+      <pre id="summary"></pre>
+      <button id="confirm-save">Хадгалах</button>
+      <p class="feedback" id="final-feedback"></p>
+    </section>
+
+    <div class="admin-panel">
+      <button id="admin-btn">Admin</button>
+    </div>
+  </main>
+
+  <!-- Admin modal -->
+  <div id="admin-modal" class="modal">
+    <div class="modal-inner">
+      <h3>Admin нэвтрэх</h3>
+      <label>Нууц үг: <input id="admin-pass" type="password"></label>
+      <div>
+        <button id="admin-login">Нэвтрэх</button>
+        <button id="admin-close">Хаах</button>
+      </div>
+      <div id="admin-content" class="admin-content"></div>
     </div>
   </div>
 
-  <div class="quiz-container" id="quiz-container">
-    <h2>Сорил</h2>
-    <p id="question">Loading...</p>
-    <div id="options"></div>
-    <button onclick="closeQuiz()">Хаах</button>
-  </div>
+  <audio id="bg-sound" src="sounds/spooky.mp3" loop></audio>
 
-  <div class="popup" id="invitation-popup">
-    <h3>🕯️ Урилга гарч ирлээ 🕯️</h3>
-    <p>Та Halloween-ийн онцгой урилгыг нээв!</p>
-    <div class="qr-code">
-      <img src="QR.png" alt="QR Code">
-    </div>
-    <button onclick="closeGiftCard()">Close</button>
-  </div>
-
-  <div class="timer" id="timer-display">00:00</div>
-
-  <script>
-    // Тухайн JS логик чинь хэвээр үлдэнэ — зөвхөн дизайн өөрчлөгдөж байгаа
-    const questions = [
-      { question: "🎃 Хулуу ямар өнгөтэй вэ?", options: ["Ногоон", "Улбар шар", "Хар"], answer: "Улбар шар" },
-      { question: "👻 Halloween хэзээ болдог вэ?", options: ["10 сарын 31", "12 сарын 25", "9 сарын 1"], answer: "10 сарын 31" },
-      { question: "🕸️ Хэний гэрт сүлжээ байдаг вэ?", options: ["Нохой", "Аалз", "Муур"], answer: "Аалз" },
-      { question: "🕯️ Ghost гэж юу вэ?", options: ["Сүнс", "Нохой", "Могой"], answer: "Сүнс" },
-      { question: "💀 Halloween-д хүмүүс юугаар хувцасладаг вэ?", options: ["Баатрууд", "Аймшгийн дүрүүд", "Хүүхэлдэй"], answer: "Аймшгийн дүрүүд" },
-      { question: "🧙‍♀️ Witch гэж юу вэ?", options: ["Шидтэн", "Хулгана", "Муур"], answer: "Шидтэн" },
-      { question: "🍬 Halloween-д юу тараадаг вэ?", options: ["Чихэр", "Мөнгө", "Тасалбар"], answer: "Чихэр" },
-      { question: "🧛‍♂️ Dracula юу уудаг вэ?", options: ["Цус", "Сүү", "Кофе"], answer: "Цус" },
-      { question: "🌕 Сар юуны бэлгэдэл вэ?", options: ["Айдас", "Найрамдал", "Хайр"], answer: "Айдас" },
-      { question: "🕷️ Хэн Halloween-д айл бүрт ордог вэ?", options: ["Trick or Treater", "Полис", "Нохой"], answer: "Trick or Treater" },
-    ];
-
-    let currentQuestionIndex = 0;
-    let score = 0;
-
-    function startQuiz() {
-      const quizContainer = document.getElementById('quiz-container');
-      quizContainer.style.display = 'block';
-      displayQuestion(currentQuestionIndex);
-    }
-
-    function displayQuestion(index) {
-      const questionElement = document.getElementById('question');
-      const optionsElement = document.getElementById('options');
-      questionElement.innerText = questions[index].question;
-      optionsElement.innerHTML = '';
-      questions[index].options.forEach(option => {
-        const btn = document.createElement('button');
-        btn.innerText = option;
-        btn.onclick = () => checkAnswer(option, index);
-        optionsElement.appendChild(btn);
-      });
-    }
-
-    function checkAnswer(selected, index) {
-      if (selected === questions[index].answer) score++;
-      index++;
-      if (index < questions.length) displayQuestion(index);
-      else {
-        document.getElementById('quiz-container').style.display = 'none';
-        if (score >= 8) unlockGift();
-      }
-    }
-
-    function closeQuiz() {
-      document.getElementById('quiz-container').style.display = 'none';
-    }
-
-    function unlockGift() {
-      const invitation = document.getElementById('invitation');
-      invitation.classList.remove('locked');
-      invitation.onclick = () => {
-        document.getElementById('invitation-popup').style.display = 'block';
-      };
-    }
-
-    function closeGiftCard() {
-      document.getElementById('invitation-popup').style.display = 'none';
-    }
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
